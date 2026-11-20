@@ -18,6 +18,9 @@ const Transform = () => import('@/views/transform/index.vue')
 const Flow = () => import('@/views/flow/index.vue')
 const Lineage = () => import('@/views/lineage/index.vue')
 const Report = () => import('@/views/report/index.vue')
+const ClockDrift = () => import('@/views/clock_drift/index.vue')
+const TimingEvent = () => import('@/views/timing_event/index.vue')
+const Handover = () => import('@/views/handover/index.vue')
 
 const router = createRouter({
   history: createWebHistory(),
@@ -40,6 +43,9 @@ const router = createRouter({
     { path: '/flow', name: 'flow', component: Flow },
     { path: '/lineage', name: 'lineage', component: Lineage },
     { path: '/report', name: 'report', component: Report },
+    { path: '/clock_drift', name: 'clock_drift', component: ClockDrift },
+    { path: '/timing_event', name: 'timing_event', component: TimingEvent },
+    { path: '/handover', name: 'handover', component: Handover },
   ],
 })
 

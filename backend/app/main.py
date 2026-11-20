@@ -10,6 +10,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
 from app.routers import ROUTERS
+from app.services.clock_drift import clock_drift_service
+from app.services.timing_event import timing_event_service
 from app.store import store
 
 app = FastAPI(title="多源数据采集与RPA自动化平台", version="1.0.0")
@@ -24,6 +26,15 @@ app.add_middleware(
 
 for module in ROUTERS:
     app.include_router(module.router)
+
+
+def bootstrap_clock_drift() -> None:
+    """计算示例来源的漂移明细与计时事件，打开页面就能看到完整链路。"""
+    clock_drift_service.bootstrap()
+    timing_event_service.generate_all()
+
+
+bootstrap_clock_drift()
 
 
 @app.get("/api/health")

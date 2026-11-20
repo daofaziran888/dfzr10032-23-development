@@ -7,6 +7,7 @@ from fastapi import APIRouter, HTTPException, Query, Request
 
 from app.schemas import ActionResult, EntryPayload, PageResult
 from app.services.log_viewer import LogViewerService
+from app.services.timing_event import timing_event_service
 
 router = APIRouter(prefix="/api/log_viewer", tags=["采集日志"])
 
@@ -14,6 +15,26 @@ service = LogViewerService()
 
 LIST_FIELDS = ["日志编号", "关联任务", "日志级别", "记录时间", "日志内容", "错误堆栈", "处理状态", "处理人"]
 STATUSES = ["未处理", "处理中", "已处理", "已忽略"]
+
+
+@router.get("/timing-events")
+def timing_events(
+    source_code: str | None = Query(default=None, description="按受影响来源过滤"),
+    pending_only: bool = Query(default=False, description="只看待现场核对"),
+    size: int = 100,
+) -> dict[str, Any]:
+    """采集日志消费采样时钟漂移明细后产生的计时事件，按受影响来源与采样区间汇总。"""
+    if size > 500:
+        raise HTTPException(status_code=400, detail="每页最多 500 条，请缩小分页范围")
+    items, total = timing_event_service.list_events(
+        source_code=source_code, pending_only=pending_only, page=1, size=size
+    )
+    return {
+        "module": "timing_event",
+        "total": total,
+        "summary": timing_event_service.summary(),
+        "items": items,
+    }
 
 
 @router.get("/export")

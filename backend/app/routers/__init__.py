@@ -23,5 +23,8 @@ from app.routers import transform as router_transform
 from app.routers import flow as router_flow
 from app.routers import lineage as router_lineage
 from app.routers import report as router_report
+from app.routers import clock_drift as router_clock_drift
+from app.routers import timing_event as router_timing_event
+from app.routers import handover as router_handover
 
-ROUTERS = [router_datasource, router_crawler, router_apiclient, router_incremental, router_robot_task, router_ingestion, router_parser, router_validator, router_dedup, router_schedule, router_monitor, router_log_viewer, router_auth, router_transform, router_flow, router_lineage, router_report]
+ROUTERS = [router_clock_drift, router_timing_event, router_handover, router_datasource, router_crawler, router_apiclient, router_incremental, router_robot_task, router_ingestion, router_parser, router_validator, router_dedup, router_schedule, router_monitor, router_log_viewer, router_auth, router_transform, router_flow, router_lineage, router_report]
